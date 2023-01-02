@@ -1,0 +1,9 @@
+# Editor directories and files
+/task9.11
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
