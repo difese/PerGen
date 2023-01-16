@@ -25,7 +25,7 @@ const personGenerator = {
     }
   }`,
   firstNameMaleJson: `{
-    "count": 10,
+    "count": 20,
     "list": {
       "id_1": "Александр",
       "id_2": "Максим",
@@ -36,22 +36,17 @@ const personGenerator = {
       "id_7": "Михаил",
       "id_8": "Даниил",
       "id_9": "Егор",
-      "id_10": "Андрей"
-    }
-  }`,
-  patronymicMaleJson: `{
-    "count": 10,
-    "list": {
-      "id_1": "Альбертович",
-      "id_2": "Маратович",
-      "id_3": "Игнатович",
-      "id_4": "Алексеевич",
-      "id_5": "Давидович",
-      "id_6": "Николаевич",
-      "id_7": "Васильевич",
-      "id_8": "Викторович",
-      "id_9": "Сергеевич",
-      "id_10": "Валентинович"
+      "id_10": "Андрей",
+      "id_11": "Виктор",
+      "id_12": "Давид",
+      "id_13": "Кузьма",
+      "id_14": "Вадим",
+      "id_15": "Алексей",
+      "id_16": "Марат",
+      "id_17": "Николай",
+      "id_18": "Альберт",
+      "id_19": "Игнат",
+      "id_20": "Cергей"
     }
   }`,
   firstNameFemaleJson: `{
@@ -153,12 +148,33 @@ const personGenerator = {
     }
   },
 
+  // * метод substr() возвращает подстроку заданной длины от заданного символа
+  // * substring() возвращает подстроку, расположенную от одной позиции до другой
+  // * slice() очень похож на substring(), но есть два отличия:
+  // * - 1) первый символ не захватывается
+  // * - 2) значения аргументов могут быть отрицательными, в этом случае производится счёт с конца
+  // * replace() используем для замены подстроки на другую (производит замену только первой попавшейся подстроки)
+  // * флаг g решает эту проблему - console.log(greeting.replace(/пока/g,'привет'))
+
   randomPatronymic: function () {
+    const Patronymic = this.randomValue(this.firstNameMaleJson);
     if (this.person.gender == 'мужчина') {
-      return this.randomValue(this.patronymicMaleJson);
+      // * replace() для формирования мужских отчеств
+      if (Patronymic.substr(-1, 1) == 'а') {
+        return `${Patronymic.replace(/.$/, 'ич')}`
+      } else if (Patronymic.substr(-1, 1) == 'й') {
+        return `${Patronymic.replace(/.$/, 'евич')}`
+      }
+      return `${Patronymic}ович`;
     }
     else {
-      return this.randomValue(this.patronymicMaleJson).slice(0, -2) + 'на';
+      // * slice() для формирования женских отчеств
+      if (Patronymic.substr(-1, 1) == 'а') {
+        return `${Patronymic.slice(0, -1) + 'ична'}`
+      } else if (Patronymic.substr(-1, 1) == 'й') {
+        return `${Patronymic.slice(0, -1) + 'евна'}`
+      }
+      return `${Patronymic}овна`;
     }
   },
 
